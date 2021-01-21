@@ -12,17 +12,19 @@
     <!-- Right side -->
     <section class="dev | p-3 | flex-grow">
       <!-- Active note -->
-      <p>Active note</p>
+      <ActiveNote />
     </section>
   </div>
 </template>
 
 <script>
 import NoteList from "@/components/NoteList.vue";
+import ActiveNote from "@/components/ActiveNote.vue";
 export default {
   name: "App",
   components: {
-    NoteList
+    NoteList,
+    ActiveNote
   }
 };
 </script>
