@@ -1,13 +1,15 @@
 <template>
-  <div class="dev | h-full | flex items-stretch">
-    <section class="dev | flex-1">
+  <div class="h-full | flex items-stretch">
+    <section class="flex-1">
       <textarea
         v-if="activeNote"
         :value="activeNote"
-        class="w-full h-full"
+        class="w-full h-full p-3 | bg-gray-200"
       ></textarea>
     </section>
-    <article class="dev | flex-1">HTML will be here</article>
+    <article class="p-3 | bg-gray-900 text-white | flex-1">
+      HTML will be here
+    </article>
   </div>
 </template>
 
