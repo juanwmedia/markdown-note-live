@@ -1,16 +1,28 @@
 <template>
-  <div class="h-full | flex items-stretch">
-    <section class="flex-1">
-      <textarea
-        v-if="activeNote"
-        :value="activeNote.body"
-        @input="updateNote"
-        class="w-full h-full p-3 | bg-gray-200"
-      ></textarea>
+  <div v-if="activeNote" class="h-full | flex flex-col">
+    <!-- Editing -->
+    <div class="flex-1 | flex">
+      <section class="flex-1">
+        <textarea
+          :value="activeNote.body"
+          @input="updateNote"
+          class="w-full h-full p-3 | bg-gray-200"
+        ></textarea>
+      </section>
+      <article class="p-3 | bg-gray-900 text-white | flex-1">
+        HTML will be here
+      </article>
+    </div>
+
+    <!-- Note info and actions -->
+    <section class="mt-3 | flex justify-end">
+      <a @click="closeNote" href="#" class="bg-gray-200 py-1 px-3 rounded-md"
+        >Close note</a
+      >
     </section>
-    <article class="p-3 | bg-gray-900 text-white | flex-1">
-      HTML will be here
-    </article>
+  </div>
+  <div v-else class="h-full | flex justify-center items-center">
+    Please select a note to start editing ✍️
   </div>
 </template>
 
@@ -31,9 +43,11 @@ export default {
         id: activeNote.value.id,
         body: $event.target.value
       });
+    const closeNote = () => store.commit("setActiveNote");
     return {
       activeNote,
-      updateNote
+      updateNote,
+      closeNote
     };
   }
 };
