@@ -3,11 +3,10 @@
     <!-- Editing -->
     <div class="flex-1 | flex">
       <section class="flex-1">
-        <textarea
-          :value="activeNote.body"
-          @input="updateNote"
+        <ActiveNoteMD
+          v-model:body="activeNote.body"
           class="w-full h-full p-3 | bg-gray-200"
-        ></textarea>
+        />
       </section>
       <ActiveNoteHTML
         :body="activeNote.body"
@@ -30,6 +29,7 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import ActiveNoteMD from "@/components/ActiveNoteMD.vue";
 import ActiveNoteHTML from "@/components/ActiveNoteHTML.vue";
 export default {
   name: "ActiveNote",
@@ -54,7 +54,8 @@ export default {
     };
   },
   components: {
-    ActiveNoteHTML
+    ActiveNoteHTML,
+    ActiveNoteMD
   }
 };
 </script>
