@@ -22,7 +22,9 @@
     </section>
   </div>
   <div v-else class="h-full | flex justify-center items-center">
-    Please select a note to start editing ✍️
+    Please select a note to start editing or&nbsp;
+    <a @click="createNote" class="underline font-bold" href="#">create a note</a
+    >&nbsp; ✍️
   </div>
 </template>
 
@@ -46,11 +48,12 @@ export default {
         body: $event.target.value
       });
     const closeNote = () => store.commit("setActiveNote");
-
+    const createNote = () => store.dispatch("createNote");
     return {
       activeNote,
       updateNote,
-      closeNote
+      closeNote,
+      createNote
     };
   },
   components: {

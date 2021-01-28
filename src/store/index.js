@@ -9,6 +9,9 @@ export default createStore({
     getNoteById: state => noteId => state.notes.find(note => note.id === noteId)
   },
   mutations: {
+    createNote(state, note) {
+      state.notes.unshift(note);
+    },
     setNotes(state, notes) {
       state.notes = notes;
     },
@@ -19,6 +22,12 @@ export default createStore({
       state.notes.find(note => note.id === id).body = body;
     }
   },
-  actions: {},
+  actions: {
+    createNote({ commit }) {
+      const note = { body: "", id: Date.now() };
+      commit("createNote", note);
+      commit("setActiveNote", note.id);
+    }
+  },
   modules: {}
 });
