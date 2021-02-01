@@ -1,4 +1,6 @@
 <template>
+  <!-- Delete Note -->
+  <DeleteNote v-if="$store.state.deleting" />
   <div
     class="container | min-h-1/2 p-3 my-3 mx-auto | bg-white rounded-xl shadow-2xl | flex"
   >
@@ -22,11 +24,13 @@
 <script>
 import NoteList from "@/components/NoteList.vue";
 import ActiveNote from "@/components/ActiveNote.vue";
+import DeleteNote from "@/components/DeleteNote.vue";
 export default {
   name: "App",
   components: {
     NoteList,
-    ActiveNote
+    ActiveNote,
+    DeleteNote
   }
 };
 </script>

@@ -3,10 +3,19 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     notes: [],
-    activeNote: null
+    activeNote: null,
+    deleting: false
   },
   getters: {
-    getNoteById: state => noteId => state.notes.find(note => note.id === noteId)
+    getNoteById: state => noteId =>
+      state.notes.find(note => note.id === noteId),
+    getNoteTitle: state => noteId => {
+      const removeMd = require("remove-markdown");
+      const body = state.notes.find(note =>
+        note.id === noteId ? noteId : state.activeNote
+      ).body;
+      return removeMd(body.substring(0, 20));
+    }
   },
   mutations: {
     createNote(state, note) {
@@ -20,6 +29,15 @@ export default createStore({
     },
     updateNote(state, { id, body }) {
       state.notes.find(note => note.id === id).body = body;
+    },
+    deleteNote(state) {
+      const index = state.notes.findIndex(note => note.id === state.activeNote);
+      state.notes.splice(index, 1);
+      state.activeNote = null;
+      state.deleting = false;
+    },
+    setDeleting(state, visible) {
+      state.deleting = visible;
     }
   },
   actions: {

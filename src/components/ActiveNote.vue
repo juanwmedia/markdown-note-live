@@ -5,6 +5,7 @@
       <section class="flex-1">
         <ActiveNoteMD
           v-model:body="activeNote.body"
+          @blur-note="blurNote"
           class="w-full h-full p-3 | bg-gray-200"
         />
       </section>
@@ -15,8 +16,14 @@
     </div>
 
     <!-- Note info and actions -->
-    <section class="mt-3 | flex justify-end">
-      <a @click="closeNote" href="#" class="bg-gray-200 py-1 px-3 rounded-md"
+    <section class="mt-3 mr-3 | flex justify-end">
+      <a
+        @click="deleteNote"
+        href="#"
+        class="py-1 px-3 mr-3 | text-red-700 rounded-md"
+        >Delete note</a
+      >
+      <a @click="closeNote" href="#" class="py-1 px-3 | rounded-md bg-gray-200"
         >Close note</a
       >
     </section>
@@ -49,11 +56,16 @@ export default {
       });
     const closeNote = () => store.commit("setActiveNote");
     const createNote = () => store.dispatch("createNote");
+    //const deleteNote = () => store.commit("deleteNote");
+    const deleteNote = () => store.commit("setDeleting", true);
+    const blurNote = value => !value.length && store.commit("deleteNote");
     return {
       activeNote,
       updateNote,
       closeNote,
-      createNote
+      createNote,
+      deleteNote,
+      blurNote
     };
   },
   components: {
