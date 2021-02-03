@@ -11,9 +11,8 @@ export default createStore({
       state.notes.find(note => note.id === noteId),
     getNoteTitle: state => noteId => {
       const removeMd = require("remove-markdown");
-      const body = state.notes.find(note =>
-        note.id === noteId ? noteId : state.activeNote
-      ).body;
+      const id = noteId ? noteId : state.activeNote;
+      const body = state.notes.find(note => note.id === id).body;
       return removeMd(body.substring(0, 20));
     }
   },
@@ -26,6 +25,7 @@ export default createStore({
     },
     setActiveNote(state, noteId = null) {
       state.activeNote = noteId;
+      console.log(state.activeNote);
     },
     updateNote(state, { id, body }) {
       state.notes.find(note => note.id === id).body = body;
@@ -36,8 +36,8 @@ export default createStore({
       state.activeNote = null;
       state.deleting = false;
     },
-    setDeleting(state, visible) {
-      state.deleting = visible;
+    setDeleting(state, deleting) {
+      state.deleting = deleting;
     }
   },
   actions: {

@@ -4,18 +4,18 @@
   >
     <article class="w-3/4 p-3 | bg-gray-200 rounded-xl shadow-md">
       <h6 class="text-center text-2xl">
-        Remove {{ $store.getters.getNoteTitle() }}
+        Remove {{ $store.getters.getNoteTitle() }} ?
       </h6>
       <nav class="flex justify-end">
         <a
-          class="m-3 underline text-red-700"
           @click="$store.commit('deleteNote')"
+          class="underline m-3 text-red-700"
           href="#"
           >Yes</a
         >
         <a
-          class="m-3 underline"
           @click="$store.commit('setDeleting', false)"
+          class="underline m-3"
           href="#"
           >No</a
         >
@@ -26,6 +26,6 @@
 
 <script>
 export default {
-  name: "RemoveNote"
+  name: "DeleteNote"
 };
 </script>
