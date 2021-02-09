@@ -5,8 +5,8 @@ import store from "./store";
 import "tailwindcss/tailwind.css";
 
 // Load JSON notes
-import notes from "@/seed.json";
-store.commit("setNotes", notes);
+// import notes from "@/seed.json";
+// store.commit("setNotes", notes);
 
 // Check auth process
 store.dispatch("checkAuth");
