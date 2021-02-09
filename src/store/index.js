@@ -1,11 +1,13 @@
 import { createStore } from "vuex";
+import { auth, firebase } from "../firebase";
 
 export default createStore({
   state: {
     notes: [],
     activeNote: null,
     deleting: false,
-    searchTerm: ""
+    searchTerm: "",
+    user: null
   },
   getters: {
     getNoteById: state => noteId =>
@@ -45,6 +47,9 @@ export default createStore({
     },
     setSearchTerm(state, searchTerm) {
       state.searchTerm = searchTerm;
+    },
+    setUser(state, user) {
+      state.user = user;
     }
   },
   actions: {
@@ -52,6 +57,24 @@ export default createStore({
       const note = { body: "", id: Date.now() };
       commit("createNote", note);
       commit("setActiveNote", note.id);
+    },
+    async userLogin() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      try {
+        await auth.signInWithPopup(provider);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    async userLogout() {
+      try {
+        await auth.signOut();
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    checkAuth({ commit }) {
+      auth.onAuthStateChanged(user => commit("setUser", user));
     }
   },
   modules: {}

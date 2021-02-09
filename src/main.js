@@ -8,6 +8,9 @@ import "tailwindcss/tailwind.css";
 import notes from "@/seed.json";
 store.commit("setNotes", notes);
 
+// Check auth process
+store.dispatch("checkAuth");
+
 createApp(App)
   .use(store)
   .mount("#app");
