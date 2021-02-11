@@ -6,6 +6,7 @@
         <ActiveNoteMD
           v-model:body="activeNote.body"
           @blur-note="blurNote"
+          @update:body="updateNote"
           class="w-full h-full p-3 | bg-gray-200"
         />
       </section>
@@ -57,10 +58,10 @@ export default {
         ? store.getters.getNoteById(store.state.activeNote)
         : null
     );
-    const updateNote = $event =>
-      store.commit("updateNote", {
+    const updateNote = value =>
+      store.dispatch("updateNote", {
         id: activeNote.value.id,
-        body: $event.target.value
+        body: value
       });
     const closeNote = () => store.commit("setActiveNote");
     const createNote = () => store.dispatch("createNote");

@@ -24,17 +24,11 @@ export default createStore({
     }
   },
   mutations: {
-    createNote(state, note) {
-      state.notes.unshift(note);
-    },
     setNotes(state, notes) {
       state.notes = notes;
     },
     setActiveNote(state, noteId = null) {
       state.activeNote = noteId;
-    },
-    updateNote(state, { id, body }) {
-      state.notes.find(note => note.id === id).body = body;
     },
     deleteNote(state) {
       const index = state.notes.findIndex(note => note.id === state.activeNote);
@@ -53,10 +47,33 @@ export default createStore({
     }
   },
   actions: {
-    createNote({ commit }) {
-      const note = { body: "", id: Date.now() };
-      commit("createNote", note);
-      commit("setActiveNote", note.id);
+    async createNote({ commit, state }) {
+      const ref = db
+        .collection("users")
+        .doc(state.user.uid)
+        .collection("notes");
+
+      const { id } = ref.doc();
+      const note = { body: "", id, createdAt: Date.now(), uid: state.user.uid };
+
+      try {
+        await ref.doc(id).set(note);
+        commit("setActiveNote", note.id);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    async updateNote({ state }, { id, body }) {
+      try {
+        await db
+          .collection("users")
+          .doc(state.user.uid)
+          .collection("notes")
+          .doc(id)
+          .update({ body });
+      } catch (error) {
+        throw new Error(error.message);
+      }
     },
     async getNotes({ state, commit }) {
       db.collection("users")
