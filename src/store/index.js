@@ -30,12 +30,6 @@ export default createStore({
     setActiveNote(state, noteId = null) {
       state.activeNote = noteId;
     },
-    deleteNote(state) {
-      const index = state.notes.findIndex(note => note.id === state.activeNote);
-      state.notes.splice(index, 1);
-      state.activeNote = null;
-      state.deleting = false;
-    },
     setDeleting(state, deleting) {
       state.deleting = deleting;
     },
@@ -71,6 +65,19 @@ export default createStore({
           .collection("notes")
           .doc(id)
           .update({ body });
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    async deleteNote({ state, commit }) {
+      try {
+        db.collection("users")
+          .doc(state.user.uid)
+          .collection("notes")
+          .doc(state.activeNote)
+          .delete();
+
+        commit("setDeleting", false);
       } catch (error) {
         throw new Error(error.message);
       }

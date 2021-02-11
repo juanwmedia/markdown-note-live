@@ -8,7 +8,7 @@
       </h6>
       <nav class="flex justify-end">
         <a
-          @click="$store.commit('deleteNote')"
+          @click="$store.dispatch('deleteNote')"
           class="underline m-3 text-red-700"
           href="#"
           >Yes</a

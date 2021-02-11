@@ -47,6 +47,7 @@
 <script>
 import { computed } from "vue";
 import { useStore } from "vuex";
+import debounce from "lodash/debounce";
 import ActiveNoteMD from "@/components/ActiveNoteMD.vue";
 import ActiveNoteHTML from "@/components/ActiveNoteHTML.vue";
 export default {
@@ -58,15 +59,18 @@ export default {
         ? store.getters.getNoteById(store.state.activeNote)
         : null
     );
-    const updateNote = value =>
-      store.dispatch("updateNote", {
-        id: activeNote.value.id,
-        body: value
-      });
+    const updateNote = debounce(
+      value =>
+        store.dispatch("updateNote", {
+          id: activeNote.value.id,
+          body: value
+        }),
+      500
+    );
     const closeNote = () => store.commit("setActiveNote");
     const createNote = () => store.dispatch("createNote");
     const deleteNote = () => store.commit("setDeleting", true);
-    const blurNote = value => !value.length && store.commit("deleteNote");
+    const blurNote = value => !value.length && store.dispatch("deleteNote");
     return {
       activeNote,
       updateNote,
@@ -74,7 +78,9 @@ export default {
       createNote,
       deleteNote,
       blurNote,
-      noteDate: computed(() => new Date(activeNote.value.id).toLocaleString()),
+      noteDate: computed(() =>
+        new Date(activeNote.value.createdAt).toLocaleString()
+      ),
       noteLength: computed(() => activeNote.value.body.split(/\W+/).length)
     };
   },
