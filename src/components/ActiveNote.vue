@@ -83,10 +83,14 @@ export default {
       createNote,
       deleteNote,
       blurNote,
-      noteDate: computed(() =>
-        new Date(activeNote.value.createdAt).toLocaleString()
+      noteDate: computed(
+        () =>
+          activeNote.value &&
+          new Date(activeNote.value.createdAt).toLocaleString()
       ),
-      noteLength: computed(() => activeNote.value.body.split(/\W+/).length)
+      noteLength: computed(
+        () => activeNote.value && activeNote.value.body.split(/\W+/).length
+      )
     };
   },
   components: {
